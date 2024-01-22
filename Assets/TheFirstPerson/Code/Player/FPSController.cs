@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TheFirstPerson.Helper;
+using UnityEngine.InputSystem;
 
 namespace TheFirstPerson
 {
@@ -176,26 +177,6 @@ namespace TheFirstPerson
         [Tooltip("Speed of character aligning to the canera direction in degrees per second. Set to 0 for instant turning")]
         public float cameraAlignSpeed = 0;
 
-        [Header("Input Settings")]
-        [Tooltip("If left empty TFP will use its default input system, if you put a TFPInput object in it will use the input functions from that")]
-        public TFPInput customInputSystem;
-        [ConditionalHide("customInputNames", true)]
-        public string jumpBtnCustom = "Jump";
-        [ConditionalHide("customInputNames", true)]
-        public string crouchBtnCustom = "Fire1";
-        [ConditionalHide("customInputNames", true)]
-        public string runBtnCustom = "Fire3";
-        [ConditionalHide("customInputNames", true)]
-        public string unlockMouseBtnCustom = "Cancel";
-        [ConditionalHide("customInputNames", true)]
-        public string xInNameCustom = "Horizontal";
-        [ConditionalHide("customInputNames", true)]
-        public string yInNameCustom = "Vertical";
-        [ConditionalHide("customInputNames", true)]
-        public string xMouseNameCustom = "Mouse X";
-        [ConditionalHide("customInputNames", true)]
-        public string yMouseNameCustom = "Mouse Y";
-
         public TFPExtension[] Extensions;
 
         //Input
@@ -263,6 +244,10 @@ namespace TheFirstPerson
 
         void Start()
         {
+            //Hook up movement delegates
+            InputManager.instance.controls.Gameplay.Jump.performed += OnJump;
+            InputManager.instance.controls.Gameplay.Sprint.performed += OnRun;
+
             controller = GetComponent<CharacterController>();
             //get the transform of a child with a camera component
             if (!customCameraTransform && !thirdPersonMode)
@@ -272,23 +257,6 @@ namespace TheFirstPerson
 
             standingHeight = controller.height;
             cameraOffset = standingHeight - cam.localPosition.y;
-
-            //Handle custom input names
-            if (customInputNames)
-            {
-                jumpBtn = jumpBtnCustom;
-                crouchBtn = crouchBtnCustom;
-                runBtn = runBtnCustom;
-                unlockMouseBtn = unlockMouseBtnCustom;
-                xInName = xInNameCustom;
-                yInName = yInNameCustom;
-                xMouseName = xMouseNameCustom;
-                yMouseName = yMouseNameCustom;
-            }
-            if (customInputSystem != null && customInputSystem.useFPSControllerAxisNames)
-            {
-                customInputSystem.SetAxisNames(jumpBtn, crouchBtn, runBtn, unlockMouseBtn, xInName, yInName, xMouseName, yMouseName);
-            }
 
             if (sprintByDefault)
             {
@@ -327,7 +295,6 @@ namespace TheFirstPerson
                 UpdateInput();
             }
 
-            UpdateMouseLock();
             ExecuteExtension(ExtFunc.PostInput);
             if (thirdPersonMode && movementEnabled)
             {
@@ -670,33 +637,6 @@ namespace TheFirstPerson
             jumpPressed = 0;
         }
 
-        void UpdateMouseLock()
-        {
-            if (mouseLockToggleEnabled && Time.timeScale > 0)
-            {
-                if (customInputSystem == null ? Input.GetButtonDown(unlockMouseBtn) : customInputSystem.UnlockMouseButton())
-                {
-                    mouseLocked = false;
-                }
-                else if (Input.GetMouseButtonDown(0))
-                {
-                    mouseLocked = true;
-                }
-            }
-
-            if (mouseLocked)
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-
-        }
-
         void MouseLook()
         {
             if (mouseLookEnabled)
@@ -764,42 +704,21 @@ namespace TheFirstPerson
                 }
             }
         }
-
         void UpdateInput()
         {
-            bool standard = customInputSystem == null;
-            xIn = standard ? Input.GetAxisRaw(xInName) : customInputSystem.XAxis();
-            yIn = standard ? Input.GetAxisRaw(yInName) : customInputSystem.YAxis();
+            xIn = InputManager.instance.controls.Gameplay.Horizontal.ReadValue<float>();
+            yIn = InputManager.instance.controls.Gameplay.Vertical.ReadValue<float>();
             if (normaliseMoveInput)
             {
                 Vector2 normalised = Vector2.ClampMagnitude(new Vector2(xIn, yIn), 1.0f);
                 xIn = normalised.x;
                 yIn = normalised.y;
             }
-            xMouse = standard ? Input.GetAxis(xMouseName) : customInputSystem.XMouse();
-            yMouse = standard ? Input.GetAxis(yMouseName) : customInputSystem.YMouse();
+            xMouse = InputManager.instance.controls.Gameplay.MouseX.ReadValue<float>();
+            yMouse = InputManager.instance.controls.Gameplay.MouseY.ReadValue<float>();
             moving = Mathf.Abs(xIn) > 0.1 || Mathf.Abs(yIn) > 0.1;
-            if (crouchToggleStyle)
-            {
-                if (standard ? Input.GetButtonDown(crouchBtn) : customInputSystem.CrouchPressed())
-                {
-                    crouching = !crouching;
-                }
-            }
-            else
-            {
-                crouching = standard ? Input.GetButton(crouchBtn) : customInputSystem.CrouchHeld();
-            }
-            bool runPressed = standard ? Input.GetButtonDown(runBtn) || Input.GetAxisRaw(runBtn) > 0.1f : customInputSystem.RunPressed();
-            bool runHeld = standard ? Input.GetButton(runBtn) || Input.GetAxisRaw(runBtn) > 0.1f : customInputSystem.RunHeld();
-            if (sprintToggleStyle)
-            {
-                if (runPressed)
-                {
-                    running = !running;
-                }
-            }
-            else if (sprintByDefault)
+            bool runHeld = InputManager.instance.controls.Gameplay.Sprint.ReadValue<float>() > 0.1f;
+            if (sprintByDefault)
             {
                 running = !runHeld;
             }
@@ -807,17 +726,23 @@ namespace TheFirstPerson
             {
                 running = runHeld;
             }
-            	jumpHeld = standard ? Input.GetButton(jumpBtn) : customInputSystem.JumpHeld();
-if (standard ? Input.GetButtonDown(jumpBtn) : customInputSystem.JumpPressed())
+            jumpHeld = InputManager.instance.controls.Gameplay.Jump.ReadValue<float>() > 0.1f;
+        }
+        private void OnRun(InputAction.CallbackContext ctx)
+        {
+            if (sprintToggleStyle)
             {
-                jumpPressed = coyoteTime;
-                if (moveInFixedUpdate)
-                {
-                    jumpPressed += Time.fixedDeltaTime;
-                }
+                running = !running;
             }
         }
-
+        private void OnJump(InputAction.CallbackContext ctx)
+        {
+            jumpPressed = coyoteTime;
+            if (moveInFixedUpdate)
+            {
+                jumpPressed += Time.fixedDeltaTime;
+            }
+        }
         void RecalculateJumpValues()
         {
             jumpGravityMult = ((2 * maxJumpHeight) / Mathf.Pow(maxJumpTime, 2)) / gravity;
@@ -944,6 +869,11 @@ if (standard ? Input.GetButtonDown(jumpBtn) : customInputSystem.JumpPressed())
 
             }
             SetData(data);
+        }
+        void OnDisable()
+        {
+            InputManager.instance.controls.Gameplay.Jump.performed -= OnJump;
+            InputManager.instance.controls.Gameplay.Sprint.performed -= OnRun;
         }
 
     }

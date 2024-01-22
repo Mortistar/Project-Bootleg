@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="MixerGroup" id="{9b4ddbe3-70c9-4298-af57-75b8cf044d0b}">
+		<property name="name">
+			<value>SFX</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{815b6c78-2507-4fb0-a5bb-a24985b8f5f7}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{e1eabb3e-6253-46fe-a84d-f783a9f7d92f}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{badbed7f-fce4-4953-8f56-a772f41090bd}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{815b6c78-2507-4fb0-a5bb-a24985b8f5f7}">
+		<relationship name="effects">
+			<destination>{93f80f6c-2b1d-43c5-b207-68c5a5964ceb}</destination>
+			<destination>{0f0130cd-a431-425e-9dc3-0f306edf11ae}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{e1eabb3e-6253-46fe-a84d-f783a9f7d92f}" />
+	<object class="GainEffect" id="{93f80f6c-2b1d-43c5-b207-68c5a5964ceb}">
+		<relationship name="automators">
+			<destination>{cdfe777c-7393-459c-93cd-0c26099c68f3}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusFader" id="{0f0130cd-a431-425e-9dc3-0f306edf11ae}" />
+	<object class="Automator" id="{cdfe777c-7393-459c-93cd-0c26099c68f3}">
+		<property name="nameOfPropertyBeingAutomated">
+			<value>gain</value>
+		</property>
+		<relationship name="automationCurves">
+			<destination>{2b488d2e-e195-499b-a39e-8abf5db280eb}</destination>
+		</relationship>
+	</object>
+	<object class="AutomationCurve" id="{2b488d2e-e195-499b-a39e-8abf5db280eb}">
+		<relationship name="parameter">
+			<destination>{2438726f-19f5-45c8-8cd2-23ec34303aac}</destination>
+		</relationship>
+	</object>
+</objects>
