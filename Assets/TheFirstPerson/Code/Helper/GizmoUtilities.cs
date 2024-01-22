@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if UNITY_EDITOR
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace TheFirstPerson.Helper
         //Code by toomasio found at https://forum.unity.com/threads/drawing-capsule-gizmo.354634/
         public static void DrawWireCapsule(Vector3 _pos, Quaternion _rot, float _radius, float _height, Color _color = default(Color))
         {
+            
             if (_color != default(Color))
                 Handles.color = _color;
             Matrix4x4 angleMatrix = Matrix4x4.TRS(_pos, _rot, Handles.matrix.lossyScale);
@@ -35,3 +37,4 @@ namespace TheFirstPerson.Helper
         }
     }
 }
+#endif

@@ -606,7 +606,6 @@ Shader "PSXEffects/PS1Shader"
 			#pragma multi_compile _ AFFINE_MAPPING
 			#pragma multi_compile _ CLAMP_AFFINE
 			#pragma multi_compile _ LIGHTMAP_ON VERTEXLIGHT_ON
-			#pragma multi_compile _ SHADOWS_SCREEN
 			#pragma shader_feature_local _LOD_TEX
 
 			#include "UnityCG.cginc"

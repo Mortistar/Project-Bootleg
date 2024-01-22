@@ -1,0 +1,54 @@
+GGJ Audio Requirements:
+
+Music:
+-Intro music
+-Menu music
+-Tutorial music
+-Dungeon music
+-Boss music
+-Victory music
+-Credits music
+
+Ambience:
+-Intro Ambience
+-Dungeon Ambience
+
+SFX:
+-Menu UI select
+-Menu UI confirm
+-Menu UI back
+
+-Player Footsteps
+-Player hurt
+-Player death
+
+-Player kick charge
+-Player kick whoosh
+-Player kick impact
+
+-Player sweep whoosh
+-Player sweep impact
+
+-Skeleton footsteps
+-Skeleton attack
+-Skeleton death
+-Skeleton gibs
+-Skeleton summoned
+
+-Calcium skeleton attack
+-Calcium skeleton hurt (thrown)
+-Calcium skeleton swept
+-Calcium skeleton death
+
+-Armoured skeleton attack
+-Armoured skeleton grunt (kicked)
+-Armoured skeleton swept
+-Armoured skeleton hurt (thrown)
+-Armoured skeleton death
+
+-Death priest attack (ranged)
+-Death priest summon
+-Magic summon
+-Death priest hurt (thrown)
+-Death priest swept
+-Death priest death

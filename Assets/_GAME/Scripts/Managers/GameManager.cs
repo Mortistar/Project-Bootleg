@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     //GLOBAL STATS
 
     //Implement settings data
-    //Implement Player data
+    public PlayerStats playerData {get; private set;}
     //Implement Dungeon data
     
     void Awake()
@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     private void INIT()
     {
         //Initialisation
+        playerData = null;
     }
     public void SetPaused(bool isPause)
     {
@@ -48,6 +49,21 @@ public class GameManager : MonoBehaviour
         }else
         {
             UnPause?.Invoke();
+        }
+    }
+    public void SetPlayerData(PlayerStats data)
+    {
+        playerData = data;
+    }
+    public void FailLevel()
+    {
+        //Restart Game
+    }
+    void OnApplicationFocus(bool hasFocus)
+    {
+        if (!hasFocus)
+        {
+            SetPaused(true);
         }
     }
 }
