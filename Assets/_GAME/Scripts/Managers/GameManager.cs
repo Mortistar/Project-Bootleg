@@ -59,11 +59,4 @@ public class GameManager : MonoBehaviour
     {
         //Restart Game
     }
-    void OnApplicationFocus(bool hasFocus)
-    {
-        if (!hasFocus)
-        {
-            SetPaused(true);
-        }
-    }
 }
