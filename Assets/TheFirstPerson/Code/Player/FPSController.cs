@@ -25,6 +25,7 @@ namespace TheFirstPerson
 
         CharacterController controller;
 
+        [SerializeField] private Animator anim;
 
         [Header("Options")]
         public bool movementEnabled = true;
@@ -446,6 +447,13 @@ namespace TheFirstPerson
                     else
                     {
                         currentMove = targetMove;
+                    }
+                    if (moving)
+                    {
+                        anim.SetBool("isWalking", true);
+                    }else
+                    {
+                        anim.SetBool("isWalking", false);
                     }
                     var targetYVel = -baseGroundForce + (-maxGroundForce * (groundAngle / 90.0f));
                     if (lastMove.y < 0)

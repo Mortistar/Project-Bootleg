@@ -8,6 +8,7 @@ public class Player : MonoBehaviour, IDamageable
     [Header("Object Refs")]
     [SerializeField] private Camera cam;
     [SerializeField] private PlayerUIHandler playerUI;
+    [SerializeField] private Animator anim;
     [SerializeField] private bool debugAttack;
 
     private PlayerStats stats;
@@ -64,6 +65,7 @@ public class Player : MonoBehaviour, IDamageable
     }
     private IEnumerator IKick()
     {
+        anim.SetTrigger("isKicking");
         Debug.Log("Hii..");
         isAttacking = true;
         yield return new WaitForSeconds(0.5f);
@@ -91,9 +93,10 @@ public class Player : MonoBehaviour, IDamageable
     {
         
         Debug.Log("Ooh..");
+        anim.SetTrigger("isSweeping");
         yield return new WaitForSeconds(0.5f);
         Debug.Log("YEH");
-        if (Physics.BoxCast(cam.transform.position, Vector3.one * 0.5f, cam.transform.forward, out RaycastHit hit, Quaternion.identity, 2f, 1 << 6))
+        if (Physics.BoxCast(cam.transform.position, Vector3.one * 0.5f, transform.forward, out RaycastHit hit, Quaternion.identity, 2f, 1 << 6))
         {
         ISweepable sweepScript = hit.collider.GetComponent<ISweepable>();
             if (sweepScript != null)
@@ -101,7 +104,6 @@ public class Player : MonoBehaviour, IDamageable
                 Vector3 sweepDirection = (hit.collider.transform.position - transform.position);
                 sweepDirection = new Vector3(sweepDirection.x, 0, sweepDirection.z).normalized;
                 sweepScript.Sweep(sweepDirection);
-                isAttacking = false;
                 //Slow motion
                 Time.timeScale = 0.5f;
                 Time.fixedDeltaTime = 0.02f * Time.timeScale;
@@ -111,6 +113,7 @@ public class Player : MonoBehaviour, IDamageable
                 yield return null;
             }
         }
+        isAttacking = false;
     }
     void OnDisable()
     {

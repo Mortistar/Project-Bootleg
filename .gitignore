@@ -74,6 +74,9 @@ crashlytics-build.properties
 # Ignore build folder
 /.BUILD
 
+# Ignore Dev folder
+/.EXTERNAL/Dev
+
 # FMOD ===============================================
 
 # Never ignore DLLs in the FMOD subfolder.
