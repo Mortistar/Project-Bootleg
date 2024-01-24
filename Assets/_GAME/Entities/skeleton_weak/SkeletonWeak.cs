@@ -202,8 +202,12 @@ public class SkeletonWeak : MonoBehaviour, IKickable, ISweepable, IDamageable
     private void AttackEnter()
     {
         //ATTACK
-        anim.SetTrigger("Attack");
-        StartCoroutine(IAttack());
+        if (attackTimer > attackDelay || attackTimer == 0)
+        {
+            anim.SetTrigger("Attack");
+            StartCoroutine(IAttack());
+            attackTimer = 0.01f;
+        }
     }
     private IEnumerator IAttack()
     {
@@ -227,8 +231,8 @@ public class SkeletonWeak : MonoBehaviour, IKickable, ISweepable, IDamageable
                 SetState(State.Chase);
             }else //If target doesn't exist, idle
             {
+                attackTimer = 0.01f;
                 SetState(State.Idle);
-                attackTimer = 0;
             }
         }
         //Attack reset
