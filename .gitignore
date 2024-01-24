@@ -76,7 +76,7 @@ crashlytics-build.properties
 
 # Ignore Dev folder
 /.EXTERNAL/Dev
-/.EXTERNAL/FL Studio
+/.EXTERNAL/FL_Studio
 /.EXTERNAL/Blender
 
 # FMOD ===============================================

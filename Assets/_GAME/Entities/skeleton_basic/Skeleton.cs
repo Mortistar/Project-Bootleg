@@ -5,7 +5,7 @@ using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Skeleton : MonoBehaviour, IKickable, ISweepable
+public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
 {
     private enum State
     {
@@ -15,8 +15,10 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable
         Ragdoll,
         Standing
     }
-    
+    [SerializeField] private GameObject gibs;
     [SerializeField] private Animator anim;
+    [SerializeField] private Transform hipTransform;
+    [SerializeField] private Rigidbody rb;
     [SerializeField] private float attackDelay;
     [SerializeField] private float sightLostThreshold;
 
@@ -27,20 +29,37 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable
     private State currentState;
     
     private NavMeshAgent navAgent;
-    private Rigidbody rb;
+    private CapsuleCollider col;
     private Transform target;
     private Transform playerTransform;
+
+    private float health = 30;
 
     
     // Start is called before the first frame update
     void Awake()
     {
         navAgent = GetComponent<NavMeshAgent>();
-        
+        col = GetComponent<CapsuleCollider>();
     }
 
     void Start()
     {
+        //Init ragdoll colliders
+        rb.isKinematic = true;
+        foreach (Rigidbody rig in GetComponentsInChildren<Rigidbody>())
+        {
+            rig.isKinematic = true;
+        }
+        foreach (Collider cCol in GetComponentsInChildren<Collider>())
+        {
+            if (cCol.gameObject != gameObject)
+            {
+                cCol.enabled = false;
+            }
+        }
+        anim.enabled = true;
+        navAgent.enabled = true;
         SetState(State.Idle);
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
@@ -185,7 +204,10 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable
     private void ChaseExit()
     {
         anim.SetBool("isRunning", false);
-        navAgent.ResetPath();
+        if (navAgent.enabled)
+        {
+            navAgent.ResetPath();
+        }
     }
     private void AttackEnter()
     {
@@ -225,7 +247,18 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable
     {
         navAgent.enabled = false;
         anim.enabled = false;
-        rb = gameObject.AddComponent<Rigidbody>();
+        col.enabled = false;
+        foreach (Rigidbody rig in GetComponentsInChildren<Rigidbody>())
+        {
+            rig.isKinematic = false;
+        }
+        foreach (Collider cCol in GetComponentsInChildren<Collider>())
+        {
+            if (cCol.gameObject != gameObject)
+            {
+                cCol.enabled = true;
+            }
+        }
         ragDollTimer = 0;
     }
     private void Ragdoll()
@@ -241,13 +274,26 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable
     }
     private void RagdollExit()
     {
-        if (rb != null)
+        foreach (Rigidbody rig in GetComponentsInChildren<Rigidbody>())
         {
-            Destroy(rb);
+            rig.isKinematic = true;
         }
-        navAgent.enabled = true;
-        navAgent.ResetPath();
+        foreach (Collider cCol in GetComponentsInChildren<Collider>())
+        {
+            if (cCol.gameObject != gameObject)
+            {
+                cCol.enabled = false;
+            }
+        }
+        transform.position = hipTransform.position;
+        hipTransform.localPosition = Vector3.up;
+        hipTransform.rotation = Quaternion.identity;
+        col.enabled = true;
         anim.enabled = true;
+        navAgent.enabled = true;
+        NavMesh.SamplePosition(transform.position, out NavMeshHit navHit, 1f, NavMesh.AllAreas);
+        transform.position = navHit.position;
+        navAgent.ResetPath();
         
     }
     private void StandingEnter()
@@ -265,16 +311,43 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable
     public void Kick(float damage, Vector3 direction)
     {
         Debug.Log("HIT FOR " + damage + " DAMAGE!");
-        
+        health -= damage;
+        if (health <= 0)
+        {
+            OnDeath();
+        }
         SetState(State.Ragdoll);
-        rb.velocity = direction * 10;
+        foreach (Rigidbody rig in GetComponentsInChildren<Rigidbody>())
+        {
+            rig.velocity = direction * 10;
+        }
     }
     public void Sweep(Vector3 direction)
     {
         Debug.Log("SWEPT!");
 
         SetState(State.Ragdoll);
-        rb.angularVelocity = direction * 10;
+        foreach (Rigidbody rig in GetComponentsInChildren<Rigidbody>())
+        {
+            rig.angularVelocity = direction * 5;
+            rig.velocity = Vector3.up;
+        }
+    }
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            OnDeath();
+        }
+    }
+    private void OnDeath()
+    {
+        Debug.Log("SKELETON DEAD");
+        GameObject objGib = Instantiate(gibs);
+        objGib.transform.position = hipTransform.position;
+        objGib.transform.rotation = hipTransform.rotation;
+        Destroy(gameObject);
     }
     private Vector3 GetHeadPosition()
     {
