@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Callbacks;
@@ -20,6 +19,7 @@ public class SkeletonWeak : MonoBehaviour, IKickable, ISweepable, IDamageable
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float attackDelay;
     [SerializeField] private float sightLostThreshold;
+    [SerializeField] private float attackValue;
 
     private float attackTimer = 0;
     private float sightTimer = 0;
@@ -40,6 +40,7 @@ public class SkeletonWeak : MonoBehaviour, IKickable, ISweepable, IDamageable
     {
         navAgent = GetComponent<NavMeshAgent>();
         col = GetComponent<CapsuleCollider>();
+        transform.Rotate(Vector3.up, Random.Range(0,360));
     }
 
     void Start()
@@ -130,7 +131,7 @@ public class SkeletonWeak : MonoBehaviour, IKickable, ISweepable, IDamageable
         //Idle
 
         //If target spotted, chase!
-        if (Physics.Raycast(GetHeadPosition(), playerTransform.position - transform.position, out RaycastHit hit, 20f))
+        if (Physics.Raycast(GetHeadPosition(), playerTransform.position - Vector3.up - transform.position, out RaycastHit hit, 20f))
         {
             if (hit.collider.tag == "Player")
             {
@@ -171,7 +172,7 @@ public class SkeletonWeak : MonoBehaviour, IKickable, ISweepable, IDamageable
             }
 
             //If has sight of target
-            if (Physics.Raycast(GetHeadPosition(), target.position - transform.position, out RaycastHit hit, 20f))
+            if (Physics.Raycast(GetHeadPosition(), target.position - Vector3.up - transform.position, out RaycastHit hit, 20f))
             {
                 if (hit.collider.tag != "Player")
                 {
@@ -200,10 +201,17 @@ public class SkeletonWeak : MonoBehaviour, IKickable, ISweepable, IDamageable
     }
     private void AttackEnter()
     {
-        Debug.Log("ATTACKING");
         //ATTACK
         anim.SetTrigger("Attack");
-        attackTimer = 0;
+        StartCoroutine(IAttack());
+    }
+    private IEnumerator IAttack()
+    {
+        yield return new WaitForSeconds(0.3f);
+         if (target != null && Vector3.Distance(transform.position, target.position) <= 1.5f)
+        {
+            target.GetComponent<IDamageable>()?.TakeDamage(attackValue);
+        }
     }
     private void Attack()
     {
@@ -220,6 +228,7 @@ public class SkeletonWeak : MonoBehaviour, IKickable, ISweepable, IDamageable
             }else //If target doesn't exist, idle
             {
                 SetState(State.Idle);
+                attackTimer = 0;
             }
         }
         //Attack reset

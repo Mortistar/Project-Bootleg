@@ -52,6 +52,7 @@ public class Player : MonoBehaviour, IDamageable
     private IEnumerator IDeath()
     {
         //Player related death stuff
+        Debug.Log("PLAYER DEAD");
         isDead = true;
         yield return new WaitForSeconds(3f);
         GameManager.instance.FailLevel();
@@ -91,7 +92,6 @@ public class Player : MonoBehaviour, IDamageable
     }
     private IEnumerator ISweep()
     {
-        
         Debug.Log("Ooh..");
         anim.SetTrigger("isSweeping");
         yield return new WaitForSeconds(0.5f);

@@ -78,6 +78,7 @@ crashlytics-build.properties
 /.EXTERNAL/Dev
 /.EXTERNAL/FL_Studio
 /.EXTERNAL/Blender
+/.EXTERNAL/PyxelEdit
 
 # FMOD ===============================================
 

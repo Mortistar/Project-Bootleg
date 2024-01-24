@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class PlayerUIHandler : MonoBehaviour
 {
+    
     [SerializeField] private Slider healthSlider;
     [SerializeField] private TMPro.TextMeshProUGUI bombText;
     private CanvasGroup group;
+    
 
     void Awake()
     {
@@ -22,7 +25,7 @@ public class PlayerUIHandler : MonoBehaviour
     }
     public void UpdateHealth(float value)
     {
-        healthSlider.value = value;
+        healthSlider.value = value / 100;
     }
     public void UpdateBombs(float amount)
     {

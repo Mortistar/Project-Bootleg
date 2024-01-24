@@ -6,11 +6,23 @@ using DG.Tweening;
 
 public class UIManager : MonoBehaviour
 {
+    public enum HintType
+    {
+        Objective,
+        Hint,
+        Secret
+    }
     [SerializeField] private CanvasGroup transitionFade;
     [SerializeField] private CanvasGroup pauseMenuGroup;
     [SerializeField] private CanvasGroup optionsMenuGroup;
+    
+    [SerializeField] private CanvasGroup hintBox;
+    [SerializeField] private TMPro.TextMeshProUGUI hintText;
 
     public static UIManager instance;
+    
+    private Coroutine hintRoutine;
+    private bool isHint;
 
     void Awake()
     {
@@ -90,5 +102,36 @@ public class UIManager : MonoBehaviour
     {
         transitionFade.blocksRaycasts = false;
         transitionFade.DOFade(0, time);
+    }
+
+    public void GiveHint(HintType type, string text)
+    {
+        if (isHint)
+        {
+            StopCoroutine(hintRoutine);
+            hintBox.alpha = 0;
+        }
+        switch(type)
+        {
+            case HintType.Objective:
+                hintText.text = "OBJECTIVE: ";
+                break;
+            case HintType.Hint:
+                hintText.text = "HINT: ";
+                break;
+            case HintType.Secret:
+                hintText.text = "SECRET FOUND: ";
+                break;
+        }
+        hintText.text += text;
+        hintRoutine = StartCoroutine(IHint());
+    }
+    private IEnumerator IHint()
+    {
+        isHint = true;
+        hintBox.DOFade(1, 0.5f);
+        yield return new WaitForSeconds(5f);
+        hintBox.DOFade(0, 0.5f);
+        isHint = false;
     }
 }

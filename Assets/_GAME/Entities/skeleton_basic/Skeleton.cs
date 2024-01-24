@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.AI;
@@ -21,6 +22,7 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float attackDelay;
     [SerializeField] private float sightLostThreshold;
+    [SerializeField] private float attackValue;
 
     private float attackTimer = 0;
     private float sightTimer = 0;
@@ -134,14 +136,14 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
     }
     private void IdleEnter()
     {
-        Debug.Log("IDLING");
+
     }
     private void Idle()
     {
         //Idle
 
         //If target spotted, chase!
-        if (Physics.Raycast(GetHeadPosition(), playerTransform.position - transform.position, out RaycastHit hit, 20f))
+        if (Physics.Raycast(GetHeadPosition(), (playerTransform.position - Vector3.up) - transform.position, out RaycastHit hit, 20f))
         {
             if (hit.collider.tag == "Player")
             {
@@ -156,7 +158,6 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
     }
     private void ChaseEnter()
     {
-        Debug.Log("CHASING");
         //Animation
         anim.SetBool("isRunning", true);
 
@@ -182,7 +183,7 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
             }
 
             //If has sight of target
-            if (Physics.Raycast(GetHeadPosition(), target.position - transform.position, out RaycastHit hit, 20f))
+            if (Physics.Raycast(GetHeadPosition(),(target.position - Vector3.up) - transform.position, out RaycastHit hit, 20f))
             {
                 if (hit.collider.tag != "Player")
                 {
@@ -211,10 +212,17 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
     }
     private void AttackEnter()
     {
-        Debug.Log("ATTACKING");
         //ATTACK
         anim.SetTrigger("Attack");
-        attackTimer = 0;
+        StartCoroutine(IAttack());
+    }
+    private IEnumerator IAttack()
+    {
+        yield return new WaitForSeconds(0.3f);
+         if (target != null && Vector3.Distance(transform.position, target.position) <= 1.5f)
+        {
+            target.GetComponent<IDamageable>()?.TakeDamage(attackValue);
+        }
     }
     private void Attack()
     {
@@ -237,6 +245,7 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
         if (attackTimer > attackDelay)
         {
             SetState(State.Attack);
+            attackTimer = 0;
         }
     }
     private void AttackExit()
@@ -248,6 +257,7 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
         navAgent.enabled = false;
         anim.enabled = false;
         col.enabled = false;
+        rb.isKinematic = false;
         foreach (Rigidbody rig in GetComponentsInChildren<Rigidbody>())
         {
             rig.isKinematic = false;
@@ -274,6 +284,7 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
     }
     private void RagdollExit()
     {
+        rb.isKinematic = true;
         foreach (Rigidbody rig in GetComponentsInChildren<Rigidbody>())
         {
             rig.isKinematic = true;

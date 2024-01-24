@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5273661930644842808}
   - component: {fileID: 700068277458316000}
   - component: {fileID: 1407386562028584511}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CalfL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 2946530617609382391}
   - component: {fileID: 5546371744199790244}
   - component: {fileID: 3226983323570633859}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Collarbone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,7 +241,7 @@ GameObject:
   - component: {fileID: 7388035337346965987}
   - component: {fileID: 4178576540177639451}
   - component: {fileID: 3628730891408784980}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ThighR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 1053454521262634563}
   - component: {fileID: 8374940396386644587}
   - component: {fileID: 8624244286799169956}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ThighL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -465,7 +465,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5382635854994278130}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EXPLOSIONCENTER
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -497,7 +497,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3035633033633975557}
   - component: {fileID: 3045403526049093581}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Skeleton_Gibs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -562,7 +562,7 @@ GameObject:
   - component: {fileID: 2469282180220112753}
   - component: {fileID: 3999904828986661805}
   - component: {fileID: 7234228088790465700}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ArmLowerR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -676,7 +676,7 @@ GameObject:
   - component: {fileID: 1240101221235491068}
   - component: {fileID: 1559174019923537496}
   - component: {fileID: 2039520837071955184}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Rib.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -791,7 +791,7 @@ GameObject:
   - component: {fileID: 6563899973621442640}
   - component: {fileID: 87607477634570895}
   - component: {fileID: 1054847137676545038}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pevlis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -905,7 +905,7 @@ GameObject:
   - component: {fileID: 8044733963733339191}
   - component: {fileID: 532023729043748400}
   - component: {fileID: 1135610379199832932}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Rib.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1020,7 +1020,7 @@ GameObject:
   - component: {fileID: 4133821333839029258}
   - component: {fileID: 2035969681359885181}
   - component: {fileID: 1565637185961163888}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ArmUpperL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1134,7 +1134,7 @@ GameObject:
   - component: {fileID: 5513639551629858761}
   - component: {fileID: 5867601070029467744}
   - component: {fileID: 4119290101048225590}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Rib.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1249,7 +1249,7 @@ GameObject:
   - component: {fileID: 1969387577762104815}
   - component: {fileID: 5779329875230968676}
   - component: {fileID: 164371803407447634}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Skull
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1363,7 +1363,7 @@ GameObject:
   - component: {fileID: 4434552579380661595}
   - component: {fileID: 2909985501839111334}
   - component: {fileID: 169458703120965839}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CalfR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1477,7 +1477,7 @@ GameObject:
   - component: {fileID: 6627732707427333253}
   - component: {fileID: 4489798223773940539}
   - component: {fileID: 6428073710230522052}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Rib
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1592,7 +1592,7 @@ GameObject:
   - component: {fileID: 7835724811757301261}
   - component: {fileID: 5331688355973788209}
   - component: {fileID: 3671812830865998917}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Rib.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1707,7 +1707,7 @@ GameObject:
   - component: {fileID: 2467855843610091749}
   - component: {fileID: 641324350833156311}
   - component: {fileID: 4321318967906885734}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ArmLowerL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1821,7 +1821,7 @@ GameObject:
   - component: {fileID: 7938392642536443717}
   - component: {fileID: 3870965977247438306}
   - component: {fileID: 3699417057276511934}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ArmUpperR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
