@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class SkeletonHips : MonoBehaviour, IDamageable
 {
-    [SerializeField] private Skeleton handler;
+    private IDamageable handler;
+    void Awake()
+    {
+        handler = transform.root.GetComponent<IDamageable>();
+    }
     public void TakeDamage(float damage)
     {
         handler.TakeDamage(damage);

@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.AI;
-
-public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
+public class SkeletonWeak : MonoBehaviour, IKickable, ISweepable, IDamageable
 {
     private enum State
     {
@@ -80,9 +79,6 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
             case State.Attack:
                 Attack();
                 break;
-            case State.Ragdoll:
-                Ragdoll();
-                break;
             case State.Standing:
                 Standing();
                 break;
@@ -101,9 +97,6 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
             case State.Attack:
                 AttackExit();
                 break;
-            case State.Ragdoll:
-                RagdollExit();
-                break;
             case State.Standing:
                 StandingExit();
                 break;
@@ -121,10 +114,6 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
             case State.Attack:
                 currentState = State.Attack;
                 AttackEnter();
-                break;
-            case State.Ragdoll:
-                currentState = State.Ragdoll;
-                RagdollEnter();
                 break;
             case State.Standing:
                 currentState = State.Standing;
@@ -243,59 +232,6 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
     {
 
     }
-    private void RagdollEnter()
-    {
-        navAgent.enabled = false;
-        anim.enabled = false;
-        col.enabled = false;
-        foreach (Rigidbody rig in GetComponentsInChildren<Rigidbody>())
-        {
-            rig.isKinematic = false;
-        }
-        foreach (Collider cCol in GetComponentsInChildren<Collider>())
-        {
-            if (cCol.gameObject != gameObject)
-            {
-                cCol.enabled = true;
-            }
-        }
-        ragDollTimer = 0;
-    }
-    private void Ragdoll()
-    {
-        if (rb.velocity.magnitude < 1)
-        {
-            ragDollTimer += Time.deltaTime;
-        }
-        if (ragDollTimer >= 3f)
-        {
-            SetState(State.Idle);
-        }
-    }
-    private void RagdollExit()
-    {
-        foreach (Rigidbody rig in GetComponentsInChildren<Rigidbody>())
-        {
-            rig.isKinematic = true;
-        }
-        foreach (Collider cCol in GetComponentsInChildren<Collider>())
-        {
-            if (cCol.gameObject != gameObject)
-            {
-                cCol.enabled = false;
-            }
-        }
-        transform.position = hipTransform.position;
-        hipTransform.localPosition = Vector3.up;
-        hipTransform.rotation = Quaternion.identity;
-        col.enabled = true;
-        anim.enabled = true;
-        navAgent.enabled = true;
-        NavMesh.SamplePosition(transform.position, out NavMeshHit navHit, 1f, NavMesh.AllAreas);
-        transform.position = navHit.position;
-        navAgent.ResetPath();
-        
-    }
     private void StandingEnter()
     {
         anim.SetTrigger("Standing");
@@ -310,36 +246,15 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
     }
     public void Kick(float damage, Vector3 direction)
     {
-        Debug.Log("HIT FOR " + damage + " DAMAGE!");
-        health -= damage;
-        if (health <= 0)
-        {
-            OnDeath();
-        }
-        SetState(State.Ragdoll);
-        foreach (Rigidbody rig in GetComponentsInChildren<Rigidbody>())
-        {
-            rig.velocity = direction * 10;
-        }
+        OnDeath();
     }
     public void Sweep(Vector3 direction)
     {
-        Debug.Log("SWEPT!");
-
-        SetState(State.Ragdoll);
-        foreach (Rigidbody rig in GetComponentsInChildren<Rigidbody>())
-        {
-            rig.angularVelocity = direction * 5;
-            rig.velocity = Vector3.up;
-        }
+        OnDeath();
     }
     public void TakeDamage(float damage)
     {
-        health -= damage;
-        if (health <= 0)
-        {
-            OnDeath();
-        }
+        OnDeath();
     }
     private void OnDeath()
     {

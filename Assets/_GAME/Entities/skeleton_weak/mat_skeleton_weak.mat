@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: mat_skeleton_gibs
+  m_Name: mat_skeleton_weak
   m_Shader: {fileID: 4800000, guid: 94cb0d6305cd4a743b1d2ec684e277de, type: 3}
   m_ValidKeywords:
   - DIFF_VERTEX
@@ -99,13 +99,13 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _LODAmt: 0
-    - _Metallic: 0
+    - _Metallic: 1
     - _Mode: 0
     - _NormalMapDepth: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _RenderMode: 0
-    - _Smoothness: 0.5
+    - _Smoothness: 0.3
     - _SmoothnessTextureChannel: 0
     - _SpecModel: 0
     - _Specular: 0
@@ -116,7 +116,7 @@ Material:
     - _VertexInaccuracy: -1
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.88316005, g: 0.9245283, b: 0.6672303, a: 1}
     - _Emission: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

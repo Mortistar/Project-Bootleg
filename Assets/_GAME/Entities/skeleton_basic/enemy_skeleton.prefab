@@ -5581,7 +5581,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8335942877869567214}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.2
   m_Height: 1.8
@@ -5697,7 +5697,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7074f769a5bfd64db527a20b7d9c298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  handler: {fileID: 1241499631}
 --- !u!1 &8666718700720649170
 GameObject:
   m_ObjectHideFlags: 0
@@ -6484,7 +6483,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 87f6335c6a815f94ab4d9f6ec632f8d3, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
