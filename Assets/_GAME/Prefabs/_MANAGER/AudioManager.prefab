@@ -44,3 +44,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b12f86a189e8e5740b1c474d55f8883b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  songIntro:
+    Guid:
+      Data1: -1684819916
+      Data2: 1077505684
+      Data3: -12572790
+      Data4: 1826079400
+    Path: event:/Music/mus_intro
+  songMenu:
+    Guid:
+      Data1: -1988749480
+      Data2: 1074515726
+      Data3: -1907269473
+      Data4: -336003670
+    Path: event:/Music/mus_menu
+  songTutorial:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  songDungeon:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  songBoss:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  songVictory:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  songCredits:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 

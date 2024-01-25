@@ -52,7 +52,6 @@ public class Player : MonoBehaviour, IDamageable
     private IEnumerator IDeath()
     {
         //Player related death stuff
-        Debug.Log("PLAYER DEAD");
         isDead = true;
         yield return new WaitForSeconds(3f);
         GameManager.instance.FailLevel();

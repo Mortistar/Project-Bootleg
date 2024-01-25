@@ -15,7 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private CanvasGroup transitionFade;
     [SerializeField] private CanvasGroup pauseMenuGroup;
     [SerializeField] private CanvasGroup optionsMenuGroup;
-    
+
     [SerializeField] private CanvasGroup hintBox;
     [SerializeField] private TMPro.TextMeshProUGUI hintText;
 
@@ -103,14 +103,9 @@ public class UIManager : MonoBehaviour
         transitionFade.blocksRaycasts = false;
         transitionFade.DOFade(0, time);
     }
-
     public void GiveHint(HintType type, string text)
     {
-        if (isHint)
-        {
-            StopCoroutine(hintRoutine);
-            hintBox.alpha = 0;
-        }
+        ClearHint();
         switch(type)
         {
             case HintType.Objective:
@@ -133,5 +128,13 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(5f);
         hintBox.DOFade(0, 0.5f);
         isHint = false;
+    }
+    public void ClearHint()
+    {
+        if (isHint)
+        {
+            StopCoroutine(hintRoutine);
+            hintBox.alpha = 0;
+        }
     }
 }

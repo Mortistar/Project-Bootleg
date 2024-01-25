@@ -9,16 +9,20 @@ public class LevelManager : MonoBehaviour
 
     public enum LevelIndex
     {
-        Logo,
-        Intro,
-        MainMenu,
-        Tutorial,
-        Dungeon,
-        Credits
+        Logo = 0,
+        Intro = 1,
+        MainMenu = 2,
+        Tutorial = 3,
+        DungeonOne = 4,
+        DungeonTwo = 5,
+        DungeonThree = 6,
+        Credits = 7,
+        LevelPreview = 8,
+        LevelResults = 9
     }
     //UI transition speed
     [SerializeField] private float transitionSpeed = 1;
-    bool isFastFade;
+    private bool isFastFade;
     void Awake()
     {
         PersistenceCheck();
@@ -38,6 +42,7 @@ public class LevelManager : MonoBehaviour
     private void INIT()
     {
         //Initialisation
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
     void Start()
     {
@@ -79,5 +84,20 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(transitionSpeed / 2);
         SceneManager.LoadScene((int)levelToLoad);
         yield return null;
+    }
+    public void LevelLoadInstant(LevelIndex levelToLoad)
+    {
+        InputManager.instance.DisableControls();
+        isFastFade = true;
+        UIManager.instance.FadeOut(0.1f);
+        SceneManager.LoadScene((int)levelToLoad);
+    }
+    public LevelIndex GetLevelIndex()
+    {
+        return (LevelIndex)SceneManager.GetActiveScene().buildIndex;
+    }
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

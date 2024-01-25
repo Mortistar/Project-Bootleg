@@ -258,9 +258,36 @@
             "id": "74fc09d8-5a6d-4cb7-b380-ad0f56561c27",
             "actions": [
                 {
-                    "name": "New action",
-                    "type": "Button",
+                    "name": "MouseDelta",
+                    "type": "Value",
                     "id": "19d20e20-caf5-4bc1-82cb-aa00724d199e",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "MouseClick",
+                    "type": "Button",
+                    "id": "5f9b45b9-34bb-4cfd-858e-fcca42ebc5f6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Exit",
+                    "type": "Button",
+                    "id": "4d70dee8-f929-4b83-bc66-50daf639d251",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Continue",
+                    "type": "Button",
+                    "id": "7c4e25f8-da31-48e8-b2cd-a0bde0413b23",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -270,12 +297,45 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "3e8638ef-0f14-4c8f-9fe6-b03ca6e19f03",
-                    "path": "",
+                    "id": "ad92548e-4013-4aae-bf37-ef370219f9c5",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "MouseClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c6bfa3a5-0acb-4155-96c2-be8207c9fb74",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Exit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "45bd342b-0603-4ef4-a1cc-7f35190102bd",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseDelta",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a8bd91b9-11dd-4b03-98c9-9d1403050fd4",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Continue",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

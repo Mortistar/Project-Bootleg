@@ -4,6 +4,7 @@ using UnityEngine;
 using FMODUnity;
 using Unity.VisualScripting;
 using FMOD.Studio;
+using FMODUnityResonance;
 
 public class AudioManager : MonoBehaviour
 {
@@ -64,6 +65,11 @@ public class AudioManager : MonoBehaviour
             {Song.Credits, songCredits}
         };
     }
+    public void QueueSong(Song songToPlay)
+    {
+        PlaySong(songToPlay, FMOD.Studio.STOP_MODE.IMMEDIATE);
+        currentSong.setPaused(true);
+    }
     public void PlaySong(Song songToPlay, FMOD.Studio.STOP_MODE stopMode)
     {
         //Convert enum to music reference
@@ -71,8 +77,20 @@ public class AudioManager : MonoBehaviour
         //Music state checks
         currentSong.getPlaybackState(out FMOD.Studio.PLAYBACK_STATE state);
 
+        //If current song paused
+        currentSong.getPaused(out bool isPaused);
+        if (isPaused)
+        {
+            //If queued music is the same as current music, do nothing
+            if (musicQueued.Guid == currentSongRef.Guid)
+            {
+                currentSong.setPaused(false);
+                return;
+            }
+        }
+
         //If current music playing
-        if (currentSong.isValid() && (state == FMOD.Studio.PLAYBACK_STATE.PLAYING))
+        if (currentSong.isValid() && state == FMOD.Studio.PLAYBACK_STATE.PLAYING)
         {
             //If queued music is the same as current music, do nothing
             if (musicQueued.Guid == currentSongRef.Guid)

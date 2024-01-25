@@ -5,6 +5,7 @@ using UnityEngine;
 public class DungeonHandler : MonoBehaviour
 {
     // Start is called before the first frame update
+    [SerializeField] private int secretCount;
     [SerializeField] private string StartHint;
     void Start()
     {
@@ -13,6 +14,16 @@ public class DungeonHandler : MonoBehaviour
         {
             UIManager.instance.GiveHint(UIManager.HintType.Objective, StartHint);
         }
+        if (secretCount > 0)
+        {
+            GameManager.instance.InitialiseDungeon(secretCount);
+        }else
+        {
+            GameManager.instance.InitialiseDungeon();
+        }
     }
-
+    void OnDisable()
+    {
+        UIManager.instance.ClearHint();
+    }
 }
