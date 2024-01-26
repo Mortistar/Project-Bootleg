@@ -7,8 +7,10 @@ public class DungeonHandler : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] private int secretCount;
     [SerializeField] private string StartHint;
+    [SerializeField] private AudioManager.Song songToPlay;
     void Start()
     {
+        AudioManager.instance.PlaySong(songToPlay, FMOD.Studio.STOP_MODE.IMMEDIATE);
         InputManager.instance.SetControls(InputManager.ControlType.Gameplay);
         if (StartHint != "")
         {
@@ -25,5 +27,6 @@ public class DungeonHandler : MonoBehaviour
     void OnDisable()
     {
         UIManager.instance.ClearHint();
+        AudioManager.instance.StopSong(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 }

@@ -15,6 +15,7 @@ public class SecretWall : MonoBehaviour, IKickable
         {
             UIManager.instance.GiveHint(UIManager.HintType.Secret, hint);
         }
+        GameManager.instance.dungeonData.FindSecret();
         Destroy(gameObject);
     }
 }

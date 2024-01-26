@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements.Experimental;
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -14,6 +15,8 @@ public class Player : MonoBehaviour, IDamageable
     private PlayerStats stats;
     private bool isDead = false;
     private bool isAttacking = false;
+
+    private List<Key> keys;
     
     void Awake()
     {
@@ -26,9 +29,31 @@ public class Player : MonoBehaviour, IDamageable
             stats = GameManager.instance.playerData;
         }
         playerUI.INIT(stats);
+        keys = new List<Key>();
         InputManager.instance.controls.Gameplay.Kick.performed += Kick;
         InputManager.instance.controls.Gameplay.Sweep.performed += Sweep;
     }
+    public bool TryUnlock(Key.KeyType keyType)
+    {
+        foreach(Key key in keys)
+        {
+            if (key.keyType == keyType)
+            {
+                keys.Remove(key);
+                playerUI.RemoveKey(keyType);
+                return true;
+            }
+        }
+        return false;
+    }
+    public void AddKey(Key.KeyType keyType)
+    {
+        Key newKey = new Key(keyType);
+        keys.Add(newKey);
+        //Update UI
+        playerUI.AddKey(keyType);
+    }
+
     public void TakeDamage(float value)
     {
         stats.LoseHealth(value);
@@ -40,6 +65,15 @@ public class Player : MonoBehaviour, IDamageable
                 Death();
             }
         }
+    }
+    public bool GetHealable()
+    {
+        return stats.health < stats.healthMax;
+    }
+    public void RestoreHealth(float value)
+    {
+        stats.GainHealth(value);
+        playerUI.UpdateHealth(stats.health);
     }
     private void CompleteLevel()
     {

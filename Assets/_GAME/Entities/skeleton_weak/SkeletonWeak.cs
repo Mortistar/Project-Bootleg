@@ -272,6 +272,7 @@ public class SkeletonWeak : MonoBehaviour, IKickable, ISweepable, IDamageable
     private void OnDeath()
     {
         Debug.Log("SKELETON DEAD");
+        GameManager.instance.dungeonData.KillEnemy(DungeonStats.EnemyScore.weak);
         GameObject objGib = Instantiate(gibs);
         objGib.transform.position = hipTransform.position;
         objGib.transform.rotation = hipTransform.rotation;

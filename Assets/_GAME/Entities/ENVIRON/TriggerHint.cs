@@ -6,7 +6,6 @@ public class TriggerHint : MonoBehaviour
 {
     [SerializeField] private UIManager.HintType hintType;
     [SerializeField] private string hintText;
-    private BoxCollider col;
     // Start is called before the first frame update
     void OnTriggerEnter(Collider other)
     {

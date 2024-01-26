@@ -60,18 +60,18 @@ MonoBehaviour:
     Path: event:/Music/mus_menu
   songTutorial:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 237729449
+      Data2: 1206203367
+      Data3: -123769199
+      Data4: -1339481488
+    Path: event:/Music/mus_main
   songDungeon:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 237729449
+      Data2: 1206203367
+      Data3: -123769199
+      Data4: -1339481488
+    Path: event:/Music/mus_main
   songBoss:
     Guid:
       Data1: 0

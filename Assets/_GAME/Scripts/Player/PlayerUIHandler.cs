@@ -9,8 +9,11 @@ public class PlayerUIHandler : MonoBehaviour
     
     [SerializeField] private Slider healthSlider;
     [SerializeField] private TMPro.TextMeshProUGUI bombText;
+    [SerializeField] private Transform keyParent;
+
+    [SerializeField] private GameObject keyPrefab;
     private CanvasGroup group;
-    
+    private List<UIKey> keys;
 
     void Awake()
     {
@@ -19,6 +22,7 @@ public class PlayerUIHandler : MonoBehaviour
 
     public void INIT(PlayerStats stats)
     {
+        keys = new List<UIKey>();
         UpdateHealth(stats.health);
         UpdateBombs(stats.bombs);
         ShowUI();
@@ -38,5 +42,25 @@ public class PlayerUIHandler : MonoBehaviour
     public void HideUI()
     {
         group.alpha = 0f;
+    }
+    public bool RemoveKey(Key.KeyType keyType)
+    {
+        foreach(UIKey key in keys)
+        {
+            if (key.keyType == keyType)
+            {
+                keys.Remove(key);
+                Destroy(key.gameObject);
+                return true;
+            }
+        }
+        return false;
+    }
+    public void AddKey(Key.KeyType keyType)
+    {
+        GameObject newKey = Instantiate(keyPrefab);
+        UIKey keyScript = newKey.GetComponent<UIKey>();
+        keyScript.INIT(keyType, keyParent);
+        keys.Add(keyScript);
     }
 }
