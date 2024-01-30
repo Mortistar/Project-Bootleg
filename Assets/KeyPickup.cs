@@ -12,7 +12,7 @@ public class KeyPickup : MonoBehaviour
         if (other.tag == "Player")
         {
             //play sound
-            //RuntimeManager.PlayOneShot(keyPickupRef)
+            RuntimeManager.PlayOneShot(keyPickupRef);
             other.GetComponent<Player>().AddKey(keyType);
             Destroy(gameObject);
         }

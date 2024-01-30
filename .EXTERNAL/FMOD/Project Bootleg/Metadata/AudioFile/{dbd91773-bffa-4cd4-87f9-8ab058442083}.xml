@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{dbd91773-bffa-4cd4-87f9-8ab058442083}">
+		<property name="assetPath">
+			<value>SFX/Skeleton/smallAggro.ogg</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.2857142857142858</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{e665cb52-f60e-492c-944a-09cab0be918b}</destination>
+		</relationship>
+	</object>
+</objects>

@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Callbacks;
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.AI;
 public class SkeletonWeak : MonoBehaviour, IKickable, ISweepable, IDamageable
@@ -13,6 +13,10 @@ public class SkeletonWeak : MonoBehaviour, IKickable, ISweepable, IDamageable
         Ragdoll,
         Standing
     }
+    [SerializeField] private EventReference OnAggroRef;
+    [SerializeField] private EventReference OnAttackRef;
+    [SerializeField] private EventReference OnDeathRef;
+
     [SerializeField] private GameObject gibs;
     [SerializeField] private Animator anim;
     [SerializeField] private Transform hipTransform;
@@ -60,8 +64,11 @@ public class SkeletonWeak : MonoBehaviour, IKickable, ISweepable, IDamageable
         }
         anim.enabled = true;
         navAgent.enabled = true;
-        SetState(State.Idle);
+        NavMesh.SamplePosition(transform.position, out NavMeshHit navHit, 0.1f, NavMesh.AllAreas);
+        navAgent.Warp(navHit.position);
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        SetState(State.Idle);
+        
     }
     void Update()
     {
@@ -124,7 +131,7 @@ public class SkeletonWeak : MonoBehaviour, IKickable, ISweepable, IDamageable
     }
     private void IdleEnter()
     {
-        Debug.Log("IDLING");
+
     }
     private void Idle()
     {
@@ -135,7 +142,8 @@ public class SkeletonWeak : MonoBehaviour, IKickable, ISweepable, IDamageable
         {
             if (hit.collider.tag == "Player")
             {
-                target = playerTransform;
+                RuntimeManager.PlayOneShotAttached(OnAggroRef, gameObject);
+                target = hit.collider.transform;
                 SetState(State.Chase);
             }
         }
@@ -146,12 +154,11 @@ public class SkeletonWeak : MonoBehaviour, IKickable, ISweepable, IDamageable
     }
     private void ChaseEnter()
     {
-        Debug.Log("CHASING");
         //Animation
         anim.SetBool("isRunning", true);
 
         //Set navmesh agent target to target
-        NavMesh.SamplePosition(target.position, out NavMeshHit navHit, 0.1f, NavMesh.AllAreas);
+        NavMesh.SamplePosition(target.position, out NavMeshHit navHit, 5f, NavMesh.AllAreas);
         navAgent.SetDestination(navHit.position);
     }
     private void Chase()
@@ -167,7 +174,7 @@ public class SkeletonWeak : MonoBehaviour, IKickable, ISweepable, IDamageable
             if (Vector3.Distance(navAgent.destination, target.position) > 1f)
             {
                 //Resample destination
-                NavMesh.SamplePosition(target.position, out NavMeshHit navHit, 0.1f, NavMesh.AllAreas);
+                NavMesh.SamplePosition(target.position, out NavMeshHit navHit, 5f, NavMesh.AllAreas);
                 navAgent.SetDestination(navHit.position);
             }
 
@@ -187,6 +194,7 @@ public class SkeletonWeak : MonoBehaviour, IKickable, ISweepable, IDamageable
         if (sightTimer >= sightLostThreshold)
         {
             target = null;
+            sightTimer = 0;
             SetState(State.Idle);
         }
         
@@ -206,13 +214,14 @@ public class SkeletonWeak : MonoBehaviour, IKickable, ISweepable, IDamageable
         {
             anim.SetTrigger("Attack");
             StartCoroutine(IAttack());
+            RuntimeManager.PlayOneShotAttached(OnAttackRef, gameObject);
             attackTimer = 0.01f;
         }
     }
     private IEnumerator IAttack()
     {
-        yield return new WaitForSeconds(0.3f);
-         if (target != null && Vector3.Distance(transform.position, target.position) <= 1.5f)
+        yield return new WaitForSeconds(0.5f);
+        if (target != null && Vector3.Distance(transform.position, target.position) <= 1.5f)
         {
             target.GetComponent<IDamageable>()?.TakeDamage(attackValue);
         }
@@ -271,7 +280,7 @@ public class SkeletonWeak : MonoBehaviour, IKickable, ISweepable, IDamageable
     }
     private void OnDeath()
     {
-        Debug.Log("SKELETON DEAD");
+        RuntimeManager.PlayOneShotAttached(OnDeathRef, gameObject);
         GameManager.instance.dungeonData.KillEnemy(DungeonStats.EnemyScore.weak);
         GameObject objGib = Instantiate(gibs);
         objGib.transform.position = hipTransform.position;

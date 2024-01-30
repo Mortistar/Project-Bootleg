@@ -47,7 +47,7 @@ public class UIManager : MonoBehaviour
         pauseMenuGroup.alpha = 0;
         optionsMenuGroup.alpha = 0;
 
-        InputManager.instance.controls.Gameplay.Menu.performed += OpenPauseMenu;
+        //InputManager.instance.controls.Gameplay.Menu.performed += OpenPauseMenu;
     }
     /// <summary>
     /// Opens the in-game pause menu

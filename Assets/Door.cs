@@ -14,7 +14,7 @@ public class Door : MonoBehaviour
             if (other.GetComponent<Player>().TryUnlock(lockType))
             {
                 //play sound
-                //RuntimeManager.PlayOneShot(unlockRef, transform.position);
+                RuntimeManager.PlayOneShot(unlockRef);
                 Destroy(gameObject);
             }
         }

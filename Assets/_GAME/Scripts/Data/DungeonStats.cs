@@ -41,13 +41,13 @@ public class DungeonStats
         switch(enemyType)
         {
             case EnemyScore.weak:
-                score += 50;
+                score += 325;
                 break;
             case EnemyScore.basic:
-                score += 100;
+                score += 750;
                 break;
             case EnemyScore.strong:
-                score += 200;
+                score += 300;
                 break;
             case EnemyScore.priest:
                 score += 500;

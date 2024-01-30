@@ -101,11 +101,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyPickupRef:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 420302228
+      Data2: 1233173832
+      Data3: 56629896
+      Data4: 1043848541
+    Path: event:/SFX/keyPickup
   keyType: 1
 --- !u!65 &7236717381272276375
 BoxCollider:

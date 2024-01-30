@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346263cb502d6294f8780863a6301738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Anim: {fileID: 5145252611084933404}
+  anim: {fileID: 0}
   movementEnabled: 1
   extensionsEnabled: 1
   slopeSlideEnabled: 1
@@ -129,15 +129,6 @@ MonoBehaviour:
   turnSpeed: 360
   sprintTurnMult: 2
   cameraAlignSpeed: 360
-  customInputSystem: {fileID: 0}
-  jumpBtnCustom: Jump
-  crouchBtnCustom: Fire1
-  runBtnCustom: Fire3
-  unlockMouseBtnCustom: Cancel
-  xInNameCustom: Horizontal
-  yInNameCustom: Vertical
-  xMouseNameCustom: Mouse X
-  yMouseNameCustom: Mouse Y
   Extensions: []
 --- !u!1 &3167198734075427011
 GameObject:
@@ -231,7 +222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cfuStatus: PSXEffects v1.18.4 - version ahead?!
   sections: 01010100
-  customRes: {x: 446, y: 334}
+  customRes: {x: 531, y: 299}
   resolutionFactor: 2
   limitFramerate: -1
   skipFrames: 0
@@ -462,10 +453,5 @@ PrefabInstance:
 --- !u!4 &1263179610278036326 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b143a3719648ff54d938837d2291f4eb, type: 3}
-  m_PrefabInstance: {fileID: 1588942000837551245}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &5145252611084933404 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: b143a3719648ff54d938837d2291f4eb, type: 3}
   m_PrefabInstance: {fileID: 1588942000837551245}
   m_PrefabAsset: {fileID: 0}

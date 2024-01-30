@@ -93,7 +93,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &628078880
 RectTransform:
   m_ObjectHideFlags: 0
@@ -606,7 +606,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1218493419
 RectTransform:
   m_ObjectHideFlags: 0
@@ -905,9 +905,8 @@ GameObject:
   m_Component:
   - component: {fileID: 529066018483845567}
   - component: {fileID: 529066018483845560}
-  - component: {fileID: 529066018483845561}
-  - component: {fileID: 173334739}
   - component: {fileID: 1810067752}
+  - component: {fileID: 8774969520487530386}
   m_Layer: 8
   m_Name: Camera
   m_TagString: Player
@@ -973,59 +972,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &529066018483845561
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 529066018483845562}
-  m_Enabled: 1
---- !u!114 &173334739
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 529066018483845562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b416fbce5a38cc47a3a1e709f95f5e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cfuStatus: PSXEffects v1.18.4 - version ahead?!
-  sections: 01010100
-  customRes: {x: 1063, y: 598}
-  resolutionFactor: 1
-  limitFramerate: -1
-  skipFrames: 0
-  affineMapping: 0
-  clampAffine: 0
-  affineBounds: 1
-  polygonalDrawDistance: 0
-  vertexInaccuracy: 30
-  polygonInaccuracy: 2
-  colorDepth: 5
-  scanlines: 1
-  scanlineIntensity: 1
-  ditherTexture: {fileID: 0}
-  dithering: 1
-  ditherThreshold: 1
-  ditherIntensity: 7
-  maxDarkness: 20
-  subtractFade: 0
-  favorRed: 0.2
-  worldSpaceSnapping: 0
-  postProcessing: 1
-  verticalScanlines: 0
-  shadowIntensity: 0.5
-  downscale: 0
-  snapCamera: 0
-  camInaccuracy: 0.05
-  camSnapping: 0
-  shadowType: 1
-  ditherSky: 0
-  ditherType: 0
 --- !u!114 &1810067752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1042,6 +988,19 @@ MonoBehaviour:
   _useRadialDistance: 1
   _fadeToSkybox: 0
   _shader: {fileID: 4800000, guid: 3514cc2676a6c4db294c28459f22c359, type: 3}
+--- !u!114 &8774969520487530386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529066018483845562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
 --- !u!1 &529066019359974264
 GameObject:
   m_ObjectHideFlags: 0
@@ -1054,6 +1013,7 @@ GameObject:
   - component: {fileID: 529066019359974269}
   - component: {fileID: 529066019359974271}
   - component: {fileID: 6268786117455770389}
+  - component: {fileID: 5370934117887499909}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -1151,13 +1111,13 @@ MonoBehaviour:
   moveSpeed: 10
   slopeSlideSpeed: 10
   acceleration: 60
-  deceleration: 60
+  deceleration: 80
   sprintToggleStyle: 0
   sprintByDefault: 0
   sprintMult: 1.5
   strafeMult: 0.8
   backwardMult: 0.9
-  sensitivity: 0.5
+  sensitivity: 0.25
   mouseLockToggleEnabled: 1
   startMouseLock: 1
   verticalLookLimit: 80
@@ -1174,6 +1134,7 @@ MonoBehaviour:
   sprintTurnMult: 2
   cameraAlignSpeed: 0
   Extensions: []
+  grounded: 0
 --- !u!114 &6268786117455770389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1189,7 +1150,55 @@ MonoBehaviour:
   cam: {fileID: 529066018483845560}
   playerUI: {fileID: 783063619}
   anim: {fileID: 54668639960638988}
-  debugAttack: 1
+  hurtRef:
+    Guid:
+      Data1: 128332280
+      Data2: 1258583652
+      Data3: 783898240
+      Data4: -566060578
+    Path: event:/SFX/Player/player_hurt
+  deathRef:
+    Guid:
+      Data1: -688151257
+      Data2: 1295999271
+      Data3: 436628360
+      Data4: 1959102065
+    Path: event:/SFX/Player/player_death
+  sweepRef:
+    Guid:
+      Data1: 1425502585
+      Data2: 1322580282
+      Data3: 542993029
+      Data4: 1706323617
+    Path: event:/SFX/Player/player_sweep
+  kickRef:
+    Guid:
+      Data1: 1586567836
+      Data2: 1206921600
+      Data3: 84352900
+      Data4: -303164388
+    Path: event:/SFX/Player/player_kick
+--- !u!114 &5370934117887499909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529066019359974264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a517b81f8c5a60448dd21c6a1b74359, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 4
+  footstepRef:
+    Guid:
+      Data1: -1691504274
+      Data2: 1188673365
+      Data3: -2140232315
+      Data4: 1286926138
+    Path: event:/SFX/Player/player_footstep
+  isWorld: 0
 --- !u!1 &2435549766622007137
 GameObject:
   m_ObjectHideFlags: 0
@@ -1272,7 +1281,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -250, y: -50}
+  m_AnchoredPosition: {x: -360, y: -100}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &170045953022431107
@@ -1334,8 +1343,8 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0

@@ -5510,6 +5510,7 @@ GameObject:
   - component: {fileID: 8335942877869567208}
   - component: {fileID: 1241499631}
   - component: {fileID: 1517956168}
+  - component: {fileID: 1316644985158733314}
   m_Layer: 6
   m_Name: enemy_skeleton
   m_TagString: Untagged
@@ -5567,6 +5568,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5141c54ce65ecf84386135e1a343104c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnAggroRef:
+    Guid:
+      Data1: -1786729237
+      Data2: 1188900304
+      Data3: 1428989076
+      Data4: -51693758
+    Path: event:/SFX/Skeleton/skele_aggro
+  OnAttackRef:
+    Guid:
+      Data1: 455462281
+      Data2: 1219265599
+      Data3: -1130324037
+      Data4: -694708321
+    Path: event:/SFX/Skeleton/skele_small_attack
+  OnDeathRef:
+    Guid:
+      Data1: 1410030874
+      Data2: 1284920688
+      Data3: -121361779
+      Data4: 655689272
+    Path: event:/SFX/Skeleton/skele_death
   gibs: {fileID: 2408137746469197759, guid: cdf918701a54d084e8f841499752dd16, type: 3}
   anim: {fileID: 2505587199617705990}
   hipTransform: {fileID: 4820650702182644288}
@@ -5574,6 +5596,7 @@ MonoBehaviour:
   attackDelay: 2
   sightLostThreshold: 2
   attackValue: 10
+  distracted: 0
 --- !u!136 &1517956168
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5588,6 +5611,27 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &1316644985158733314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8335942877869567214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a517b81f8c5a60448dd21c6a1b74359, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 1.5
+  footstepRef:
+    Guid:
+      Data1: -1642091971
+      Data2: 1141284090
+      Data3: 1660478848
+      Data4: -751349714
+    Path: event:/SFX/Skeleton/skele_footstep
+  isWorld: 1
 --- !u!1 &8396572227880544059
 GameObject:
   m_ObjectHideFlags: 0

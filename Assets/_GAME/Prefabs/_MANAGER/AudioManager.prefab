@@ -72,24 +72,17 @@ MonoBehaviour:
       Data3: -123769199
       Data4: -1339481488
     Path: event:/Music/mus_main
-  songBoss:
+  songResults:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  songVictory:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1171694706
+      Data2: 1119795334
+      Data3: -1954532179
+      Data4: 435587917
+    Path: event:/Music/mus_results
   songCredits:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1586015069
+      Data2: 1312166974
+      Data3: -1023252840
+      Data4: 824250099
+    Path: event:/Music/mus_credits

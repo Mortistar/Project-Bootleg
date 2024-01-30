@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{88f30042-d57d-47ab-a888-d7d144e8f46d}">
+		<property name="assetPath">
+			<value>SFX/doorUnlock.ogg</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.42857142857142855</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{e665cb52-f60e-492c-944a-09cab0be918b}</destination>
+		</relationship>
+	</object>
+</objects>

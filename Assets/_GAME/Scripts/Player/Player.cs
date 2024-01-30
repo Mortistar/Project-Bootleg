@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements.Experimental;
 
 public class Player : MonoBehaviour, IDamageable
 {
@@ -10,7 +10,10 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private Camera cam;
     [SerializeField] private PlayerUIHandler playerUI;
     [SerializeField] private Animator anim;
-    [SerializeField] private bool debugAttack;
+    [SerializeField] private EventReference hurtRef;
+    [SerializeField] private EventReference deathRef;
+    [SerializeField] private EventReference sweepRef;
+    [SerializeField] private EventReference kickRef;
 
     private PlayerStats stats;
     private bool isDead = false;
@@ -63,8 +66,10 @@ public class Player : MonoBehaviour, IDamageable
             if (!isDead)
             {
                 Death();
+                return;
             }
         }
+        RuntimeManager.PlayOneShot(hurtRef);
     }
     public bool GetHealable()
     {
@@ -86,8 +91,10 @@ public class Player : MonoBehaviour, IDamageable
     private IEnumerator IDeath()
     {
         //Player related death stuff
+        RuntimeManager.PlayOneShot(deathRef);
         isDead = true;
-        yield return new WaitForSeconds(3f);
+        InputManager.instance.DisableControls();
+        yield return new WaitForSeconds(2f);
         GameManager.instance.FailLevel();
     }
     private void Kick(InputAction.CallbackContext ctx)
@@ -100,10 +107,8 @@ public class Player : MonoBehaviour, IDamageable
     private IEnumerator IKick()
     {
         anim.SetTrigger("isKicking");
-        Debug.Log("Hii..");
         isAttacking = true;
         yield return new WaitForSeconds(0.5f);
-        Debug.Log("YAH");
         if (Physics.BoxCast(transform.position + (Vector3.up * 0.9f), new Vector3(0.5f, 3f, 0.5f), transform.forward, out RaycastHit hit, Quaternion.identity, 1.5f, 1 << 6))
         {
             IKickable kickScript = hit.collider.GetComponent<IKickable>();
@@ -111,6 +116,7 @@ public class Player : MonoBehaviour, IDamageable
             {
                 Vector3 kickDirection = (hit.collider.transform.position - transform.position).normalized;
                 kickScript.Kick(stats.attack, kickDirection);
+                RuntimeManager.PlayOneShot(kickRef);
             }
         }
         isAttacking = false;
@@ -125,10 +131,12 @@ public class Player : MonoBehaviour, IDamageable
     }
     private IEnumerator ISweep()
     {
-        Debug.Log("Ooh..");
+        RuntimeManager.PlayOneShot(sweepRef);
         anim.SetTrigger("isSweeping");
+        isAttacking = true;
         yield return new WaitForSeconds(0.5f);
-        Debug.Log("YEH");
+        isAttacking = false;
+        
         RaycastHit[] hits = Physics.BoxCastAll(cam.transform.position, new Vector3(0.5f, 3f, 0.5f), transform.forward, Quaternion.identity, 1.5f, 1 << 6);
         if (hits.Length > 0)
         {
@@ -144,18 +152,20 @@ public class Player : MonoBehaviour, IDamageable
                 }
             }
             //Slow motion
+            RuntimeManager.StudioSystem.setParameterByName("TIMESCALE", 0);
             Time.timeScale = 0.5f;
             Time.fixedDeltaTime = 0.02f * Time.timeScale;
             yield return new WaitForSeconds(3 * Time.timeScale);
+            RuntimeManager.StudioSystem.setParameterByName("TIMESCALE", 1);
             Time.timeScale = 1f;
             Time.fixedDeltaTime = 0.02f;
             yield return null;
         }
-        isAttacking = false;
     }
     void OnDisable()
     {
         InputManager.instance.controls.Gameplay.Kick.performed -= Kick;
         InputManager.instance.controls.Gameplay.Sweep.performed -= Sweep;
+        RuntimeManager.StudioSystem.setParameterByName("TIMESCALE", 1);
     }
 }

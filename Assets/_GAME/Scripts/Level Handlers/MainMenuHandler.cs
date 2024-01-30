@@ -23,14 +23,17 @@ public class MainMenuHandler : MonoBehaviour
     private void OnPlayClicked()
     {
         RuntimeManager.PlayOneShot(clickRef);
+        OnDisable();
         LevelManager.instance.LevelLoad(LevelManager.LevelIndex.LevelPreview);
     }
     private void OnSettingsClicked()
     {
+        OnDisable();
         RuntimeManager.PlayOneShot(clickRef);
     }
     private void OnQuitClicked()
     {
+        OnDisable();
         RuntimeManager.PlayOneShot(clickRef);
         GameManager.instance.Quit(1f);
     }

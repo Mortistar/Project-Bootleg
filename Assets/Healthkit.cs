@@ -13,7 +13,7 @@ public class Healthkit : MonoBehaviour
             Player playerScript = other.GetComponent<Player>();
             if (playerScript.GetHealable()) 
             {
-                //RuntimeManager.PlayOneShot(healthkitRef, transform.position);
+                RuntimeManager.PlayOneShot(healthkitRef);
                 playerScript?.RestoreHealth(50f);
                 Destroy(gameObject);
             }

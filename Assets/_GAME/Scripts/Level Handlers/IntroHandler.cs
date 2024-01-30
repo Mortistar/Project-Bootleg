@@ -24,7 +24,7 @@ public class IntroHandler : MonoBehaviour
     void Start()
     {
         InputManager.instance.SetControls(InputManager.ControlType.UI);
-        InputManager.instance.controls.UI.Continue.performed += Skip;
+        InputManager.instance.controls.UI.Exit.performed += Skip;
         musicInst = RuntimeManager.CreateInstance(introMusicRef);
         musicInst.start();
         AudioManager.instance.QueueSong(AudioManager.Song.MainMenu);
@@ -62,7 +62,7 @@ public class IntroHandler : MonoBehaviour
     }
     void OnDisable()
     {
-        InputManager.instance.controls.UI.Continue.performed -= Skip;
+        InputManager.instance.controls.UI.Exit.performed -= Skip;
         musicInst.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
     }
 }

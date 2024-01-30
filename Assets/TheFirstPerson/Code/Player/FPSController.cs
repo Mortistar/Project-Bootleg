@@ -194,7 +194,7 @@ namespace TheFirstPerson
 
         //Vertical Movement
         bool jumping;
-        bool grounded;
+        public bool grounded;
         float timeSinceGrounded;
         float yVel;
         float gravMult = 1;

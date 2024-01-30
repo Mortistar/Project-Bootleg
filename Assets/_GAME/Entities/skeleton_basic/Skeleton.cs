@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.AI;
+using FMODUnity;
 
 public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
 {
@@ -16,6 +16,10 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
         Ragdoll,
         Standing
     }
+    [SerializeField] private EventReference OnAggroRef;
+    [SerializeField] private EventReference OnAttackRef;
+    [SerializeField] private EventReference OnDeathRef;
+
     [SerializeField] private GameObject gibs;
     [SerializeField] private Animator anim;
     [SerializeField] private Transform hipTransform;
@@ -23,6 +27,7 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
     [SerializeField] private float attackDelay;
     [SerializeField] private float sightLostThreshold;
     [SerializeField] private float attackValue;
+    [SerializeField] private bool distracted = false;
 
     private float attackTimer = 0;
     private float sightTimer = 0;
@@ -62,8 +67,14 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
         }
         anim.enabled = true;
         navAgent.enabled = true;
-        SetState(State.Idle);
+        NavMesh.SamplePosition(transform.position, out NavMeshHit navHit, 0.5f, NavMesh.AllAreas);
+        navAgent.Warp(navHit.position);
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        if (!distracted)
+        {
+            SetState(State.Idle);
+        }
+        
     }
     void Update()
     {
@@ -141,12 +152,13 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
     private void Idle()
     {
         //Idle
-
+        
         //If target spotted, chase!
         if (Physics.Raycast(GetHeadPosition(), (playerTransform.position - Vector3.up) - transform.position, out RaycastHit hit, 20f))
         {
             if (hit.collider.tag == "Player")
             {
+                RuntimeManager.PlayOneShotAttached(OnAggroRef, gameObject);
                 target = playerTransform;
                 SetState(State.Chase);
             }
@@ -162,7 +174,7 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
         anim.SetBool("isRunning", true);
 
         //Set navmesh agent target to target
-        NavMesh.SamplePosition(target.position, out NavMeshHit navHit, 0.1f, NavMesh.AllAreas);
+        NavMesh.SamplePosition(target.position, out NavMeshHit navHit, 5f, NavMesh.AllAreas);
         navAgent.SetDestination(navHit.position);
     }
     private void Chase()
@@ -178,8 +190,9 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
             if (Vector3.Distance(navAgent.destination, target.position) > 1f)
             {
                 //Resample destination
-                NavMesh.SamplePosition(target.position, out NavMeshHit navHit, 0.1f, NavMesh.AllAreas);
+                NavMesh.SamplePosition(target.position, out NavMeshHit navHit, 5f, NavMesh.AllAreas);
                 navAgent.SetDestination(navHit.position);
+                
             }
 
             //If has sight of target
@@ -198,6 +211,7 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
         if (sightTimer >= sightLostThreshold)
         {
             target = null;
+            sightTimer = 0;
             SetState(State.Idle);
         }
         
@@ -213,17 +227,18 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
     private void AttackEnter()
     {
         //ATTACK
-        if (attackTimer > attackDelay  || attackTimer == 0)
+        if (attackTimer > attackDelay || attackTimer == 0)
         {
             anim.SetTrigger("Attack");
+            RuntimeManager.PlayOneShotAttached(OnAttackRef, gameObject);
             StartCoroutine(IAttack());
             attackTimer = 0.01f;
         }
     }
     private IEnumerator IAttack()
     {
-        yield return new WaitForSeconds(0.3f);
-         if (target != null && Vector3.Distance(transform.position, target.position) <= 1.5f)
+        yield return new WaitForSeconds(0.5f);
+        if (target != null && Vector3.Distance(transform.position, target.position) <= 1.5f)
         {
             target.GetComponent<IDamageable>()?.TakeDamage(attackValue);
         }
@@ -325,7 +340,6 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
     }
     public void Kick(float damage, Vector3 direction)
     {
-        Debug.Log("HIT FOR " + damage + " DAMAGE!");
         health -= damage;
         if (health <= 0)
         {
@@ -339,7 +353,6 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
     }
     public void Sweep(Vector3 direction)
     {
-        Debug.Log("SWEPT!");
 
         SetState(State.Ragdoll);
         foreach (Rigidbody rig in GetComponentsInChildren<Rigidbody>())
@@ -358,7 +371,8 @@ public class Skeleton : MonoBehaviour, IKickable, ISweepable, IDamageable
     }
     private void OnDeath()
     {
-        Debug.Log("SKELETON DEAD");
+        RuntimeManager.PlayOneShotAttached(OnDeathRef, gameObject);
+        GameManager.instance.dungeonData.KillEnemy(DungeonStats.EnemyScore.basic);
         GameObject objGib = Instantiate(gibs);
         objGib.transform.position = hipTransform.position;
         objGib.transform.rotation = hipTransform.rotation;

@@ -34,7 +34,6 @@ public class TestDummy : MonoBehaviour, IKickable, ISweepable
 
     public void Kick(float damage, Vector3 direction)
     {
-        Debug.Log("HIT FOR " + damage + " DAMAGE!");
         rb.velocity = direction * kickMult;
 
         isKicked = true;
@@ -42,7 +41,6 @@ public class TestDummy : MonoBehaviour, IKickable, ISweepable
     }
     public void Sweep(Vector3 direction)
     {
-        Debug.Log("SWEPT!");
         rb.angularVelocity = direction * kickMult;
         isKicked = true;
         kickTimer = 1;
@@ -53,6 +51,5 @@ public class TestDummy : MonoBehaviour, IKickable, ISweepable
         transform.position = startPos;
         transform.rotation = Quaternion.identity;
         isKicked = false;
-        Debug.Log("Target Dummy resetting");
     }
 }

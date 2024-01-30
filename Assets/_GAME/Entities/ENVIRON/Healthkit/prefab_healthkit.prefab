@@ -118,11 +118,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthkitRef:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -10900432
+      Data2: 1114962742
+      Data3: 1076957837
+      Data4: 1670503874
+    Path: event:/SFX/healthPickup
 --- !u!65 &828692432909439260
 BoxCollider:
   m_ObjectHideFlags: 0

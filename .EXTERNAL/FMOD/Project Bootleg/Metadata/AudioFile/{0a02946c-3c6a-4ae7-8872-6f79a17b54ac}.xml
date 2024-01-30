@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{0a02946c-3c6a-4ae7-8872-6f79a17b54ac}">
+		<property name="assetPath">
+			<value>SFX/keyPickup.ogg</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.5357142857142857</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{e665cb52-f60e-492c-944a-09cab0be918b}</destination>
+		</relationship>
+	</object>
+</objects>

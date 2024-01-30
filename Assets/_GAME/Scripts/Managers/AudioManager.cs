@@ -12,6 +12,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private EventReference songMenu;
     [SerializeField] private EventReference songTutorial;
     [SerializeField] private EventReference songDungeon;
+    [SerializeField] private EventReference songResults;
     [SerializeField] private EventReference songCredits;
     public enum Song
     {
@@ -19,6 +20,7 @@ public class AudioManager : MonoBehaviour
         MainMenu,
         Tutorial,
         Dungeon,
+        Results,
         Credits
     }
     public Dictionary<Song,EventReference> songs {get; private set;}
@@ -56,6 +58,7 @@ public class AudioManager : MonoBehaviour
             {Song.MainMenu, songMenu},
             {Song.Tutorial, songTutorial},
             {Song.Dungeon, songDungeon},
+            {Song.Results, songResults},
             {Song.Credits, songCredits}
         };
     }

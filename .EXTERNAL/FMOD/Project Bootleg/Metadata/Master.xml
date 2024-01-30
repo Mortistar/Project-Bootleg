@@ -4,6 +4,9 @@
 		<property name="name">
 			<value>Master Bus</value>
 		</property>
+		<relationship name="automators">
+			<destination>{4bdea054-1c79-485a-b815-36b69d927e34}</destination>
+		</relationship>
 		<relationship name="effectChain">
 			<destination>{058a5c8f-033d-4f86-a795-228cc5308ea6}</destination>
 		</relationship>
@@ -12,6 +15,14 @@
 		</relationship>
 		<relationship name="mixer">
 			<destination>{648bcf96-c71a-47d0-b0cc-1349c1dba23a}</destination>
+		</relationship>
+	</object>
+	<object class="Automator" id="{4bdea054-1c79-485a-b815-36b69d927e34}">
+		<property name="nameOfPropertyBeingAutomated">
+			<value>pitch</value>
+		</property>
+		<relationship name="automationCurves">
+			<destination>{1ed97c5e-ec84-45d6-a4a4-47a2565f464d}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusEffectChain" id="{058a5c8f-033d-4f86-a795-228cc5308ea6}">
@@ -25,12 +36,37 @@
 			<value>2</value>
 		</property>
 	</object>
+	<object class="AutomationCurve" id="{1ed97c5e-ec84-45d6-a4a4-47a2565f464d}">
+		<relationship name="parameter">
+			<destination>{50c8141b-7dda-4256-af60-085efd17fa85}</destination>
+		</relationship>
+		<relationship name="automationPoints">
+			<destination>{763f8015-b311-4984-9f0e-8cb1a4255da0}</destination>
+			<destination>{245e2c1a-030a-4335-91d4-96105d4d881b}</destination>
+		</relationship>
+	</object>
 	<object class="GainEffect" id="{7db094c3-aac5-49d0-a1f1-5e893dbc7ae2}">
 		<relationship name="automators">
 			<destination>{7ab048bf-f811-4702-a7ce-e3b7e4fc1747}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{f537a1ed-ae08-4b90-a76f-726c7b67f149}" />
+	<object class="AutomationPoint" id="{763f8015-b311-4984-9f0e-8cb1a4255da0}">
+		<property name="position">
+			<value>0</value>
+		</property>
+		<property name="value">
+			<value>-8</value>
+		</property>
+	</object>
+	<object class="AutomationPoint" id="{245e2c1a-030a-4335-91d4-96105d4d881b}">
+		<property name="position">
+			<value>0.99576271186440679</value>
+		</property>
+		<property name="value">
+			<value>0</value>
+		</property>
+	</object>
 	<object class="Automator" id="{7ab048bf-f811-4702-a7ce-e3b7e4fc1747}">
 		<property name="nameOfPropertyBeingAutomated">
 			<value>gain</value>

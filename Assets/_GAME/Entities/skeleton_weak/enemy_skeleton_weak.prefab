@@ -5069,6 +5069,7 @@ GameObject:
   - component: {fileID: 7835188671154988037}
   - component: {fileID: 2239161428315301029}
   - component: {fileID: 5932328031480483636}
+  - component: {fileID: 4846563760017521118}
   m_Layer: 6
   m_Name: enemy_skeleton_weak
   m_TagString: Untagged
@@ -5140,6 +5141,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f3c619bb8367df4c97b735d9d82f60c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnAggroRef:
+    Guid:
+      Data1: -931154723
+      Data2: 1213640892
+      Data3: -1890264685
+      Data4: 1518573742
+    Path: event:/SFX/Skeleton/skele_small_aggro
+  OnAttackRef:
+    Guid:
+      Data1: 455462281
+      Data2: 1219265599
+      Data3: -1130324037
+      Data4: -694708321
+    Path: event:/SFX/Skeleton/skele_small_attack
+  OnDeathRef:
+    Guid:
+      Data1: -1806698199
+      Data2: 1144325020
+      Data3: -485766994
+      Data4: 997946815
+    Path: event:/SFX/Skeleton/skele_small_death
   gibs: {fileID: 2408137746469197759, guid: d895197f7f8235242b30cf577b0b64df, type: 3}
   anim: {fileID: 4455954750554104043}
   hipTransform: {fileID: 6770455264544043693}
@@ -5147,6 +5169,27 @@ MonoBehaviour:
   attackDelay: 2
   sightLostThreshold: 5
   attackValue: 5
+--- !u!114 &4846563760017521118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7835188671154988035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a517b81f8c5a60448dd21c6a1b74359, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 1.5
+  footstepRef:
+    Guid:
+      Data1: -1642091971
+      Data2: 1141284090
+      Data3: 1660478848
+      Data4: -751349714
+    Path: event:/SFX/Skeleton/skele_footstep
+  isWorld: 1
 --- !u!1 &8014741199250962107
 GameObject:
   m_ObjectHideFlags: 0

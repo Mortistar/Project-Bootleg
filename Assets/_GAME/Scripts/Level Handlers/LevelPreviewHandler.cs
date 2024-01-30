@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using FMODUnity;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class LevelPreviewHandler : MonoBehaviour
 {
     [SerializeField] private EventReference startRef;
-    [SerializeField] private TMPro.TextMeshProUGUI levelText;
+    [SerializeField] private Image levelText;
+    [SerializeField] private Sprite sprZero;
+    [SerializeField] private Sprite sprOne;
+    [SerializeField] private Sprite sprTwo;
+    [SerializeField] private Sprite sprThree;
     void Start()
     {
         InputManager.instance.SetControls(InputManager.ControlType.UI);
@@ -16,16 +21,16 @@ public class LevelPreviewHandler : MonoBehaviour
         switch (GameManager.instance.currentLevel + 1)
         {
             case LevelManager.LevelIndex.Tutorial:
-                levelText.text = "E1M0 : TUTORIAL";
+                levelText.sprite = sprZero;
                 break;
             case LevelManager.LevelIndex.DungeonOne:
-                levelText.text = "E1M1 : ENTRANCE HALL";
+                levelText.sprite = sprOne;
                 break;
             case LevelManager.LevelIndex.DungeonTwo:
-                levelText.text = "E1M2 : PRISON";
+                levelText.sprite = sprTwo;
                 break;
             case LevelManager.LevelIndex.DungeonThree:
-                levelText.text = "E1M3 : RITUAL CHAMBER";
+                levelText.sprite = sprThree;
                 break;
         }
     }
